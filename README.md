@@ -12,6 +12,27 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+### API proxy and environment variables
+
+API calls from the Angular app are proxied to `/api` (see `proxy.conf.json`). If you are running a local Node.js API that connects to MySQL, copy `.env.example` to `.env` and update the credentials as needed:
+
+```bash
+cp .env.example .env
+```
+
+The sample `.env.example` values match the remote MySQL details you provided:
+
+```ini
+DB_HOST=srv1128.hstgr.io
+DB_USER=u154156152_ngDemo
+DB_PASSWORD=?LDZWsIe6s3H
+DB_NAME=u154156152_angular
+DB_PORT=3306
+PORT=3000
+```
+
+The Angular app itself does not read `.env` directly; it communicates with whatever API endpoint you run at `/api`.
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
