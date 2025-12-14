@@ -1,3 +1,26 @@
+.navbar-sky {
+  background: linear-gradient(135deg, var(--brand-50), rgba(255, 255, 255, 0.9));
+  border-color: rgba(7, 109, 156, 0.12);
+
+  .navbar-brand {
+    color: var(--brand-900);
+
+    &:hover {
+      color: var(--brand-800);
+    }
+  }
+
+  .nav-link {
+    color: var(--brand-800);
+    font-weight: 600;
+
+    &.active,
+    &:hover {
+      color: var(--brand-900);
+    }
+  }
+}
+
 .nav-primary-btn {
   border-radius: 999rem; // optional: full pill look
   font-weight: 500;
