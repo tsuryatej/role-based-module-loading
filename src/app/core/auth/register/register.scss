@@ -99,4 +99,20 @@
     border-top: none;
     padding: 0.75rem 1.5rem 1rem 1.5rem;
   }
+
+  .register-api-status {
+    border-radius: 0.75rem;
+    border: 1px solid var(--brand-border);
+  }
+
+  .register-api-controls {
+    .register-input {
+      font-size: 0.8125rem;
+    }
+
+    .register-btn-outline,
+    .register-btn-primary {
+      white-space: nowrap;
+    }
+  }
 }
