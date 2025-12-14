@@ -40,23 +40,36 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  // Update this base URL to point to your deployed API that writes to MySQL.
-  private readonly apiBaseUrl = 'https://srvn128.hostgtr.to/api';
+  // Route API calls through the Angular dev-server proxy to the hosted backend.
+  private readonly apiBaseUrlValue = '/api';
+  readonly upstreamApiBaseUrl = 'https://srvn128.hostgtr.to/api';
+
+  readonly registerEndpoint = `${this.apiBaseUrlValue}/register`;
 
   private readonly user = signal<AuthenticatedUser | null>(this.restoreUser());
 
   readonly currentUser = computed(() => this.user());
   readonly isAuthenticated = computed(() => !!this.user());
 
+  apiBaseUrl() {
+    return this.apiBaseUrlValue;
+  }
+
+  // Backwards-compatible accessor for templates/components still expecting the
+  // previous method name.
+  getApiBaseUrl() {
+    return this.apiBaseUrl();
+  }
+
   register(payload: RegisterPayload) {
     return this.http
-      .post<AuthResponse>(`${this.apiBaseUrl}/register`, payload)
+      .post<AuthResponse>(this.registerEndpoint, payload)
       .pipe(tap((response) => this.persistSession(response)));
   }
 
   login(payload: LoginPayload) {
     return this.http
-      .post<AuthResponse>(`${this.apiBaseUrl}/login`, payload)
+      .post<AuthResponse>(`${this.apiBaseUrlValue}/login`, payload)
       .pipe(
         tap((response) => this.persistSession(response)),
         tap(() => this.router.navigate(['/dashboard']))
@@ -74,7 +87,7 @@ export class AuthService {
     const role = this.user()?.role ?? 'guest';
 
     return this.http
-      .get<DashboardModule[]>(`${this.apiBaseUrl}/roles/${role}/modules`)
+      .get<DashboardModule[]>(`${this.apiBaseUrlValue}/roles/${role}/modules`)
       .pipe(
         map((modules) => modules ?? []),
         catchError(() => of(this.buildFallbackModules(role)))
