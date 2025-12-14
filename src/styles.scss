@@ -39,18 +39,17 @@ $brand-blue-palette: (
   ),
 );
 
-$brand-primary: mat.define-palette($brand-blue-palette, 500, 100, 900);
-$brand-tertiary: mat.define-palette($brand-blue-palette, 300);
+$brand-theme: mat.define-theme((
+  color: (
+    primary: $brand-blue-palette,
+    tertiary: $brand-blue-palette,
+  ),
+  typography: Roboto,
+  density: 0,
+));
 
 html {
-  @include mat.theme((
-    color: (
-      primary: $brand-primary,
-      tertiary: $brand-tertiary,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme($brand-theme);
 }
 
 :root {
