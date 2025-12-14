@@ -55,6 +55,12 @@ export class AuthService {
     return this.apiBaseUrlValue;
   }
 
+  // Backwards-compatible accessor for templates/components still expecting the
+  // previous method name.
+  getApiBaseUrl() {
+    return this.apiBaseUrl();
+  }
+
   register(payload: RegisterPayload) {
     return this.http
       .post<AuthResponse>(this.registerEndpoint, payload)
