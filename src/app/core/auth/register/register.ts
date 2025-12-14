@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -72,12 +73,22 @@ export class Register implements OnInit {
           this.success.set('Registration successful. You can now sign in.');
           this.registerForm.reset();
         },
-        error: (err) => {
+        error: (response: HttpErrorResponse) => {
           this.submitting.set(false);
-          const detail = err?.error?.message || err?.message;
-          this.error.set(
-            detail ? `Unable to create your account: ${detail}` : 'Unable to create your account. Please try again.'
-          );
+
+          if (response.status === 404) {
+            this.error.set(
+              `The registration endpoint was not found at ${this.authService.registerEndpoint}. Ensure your dev proxy points to ${this.authService.upstreamApiBaseUrl} and that the backend is reachable.`
+            );
+            return;
+          }
+
+          if (response.status === 0) {
+            this.error.set('Unable to reach the registration service. Check your network connection and API availability.');
+            return;
+          }
+
+          this.error.set('Unable to create your account. Please try again.');
         }
       });
   }

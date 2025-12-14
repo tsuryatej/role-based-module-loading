@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://srvn128.hostgtr.to",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "info"
+  }
+}

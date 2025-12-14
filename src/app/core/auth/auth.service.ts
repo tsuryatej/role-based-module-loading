@@ -40,7 +40,11 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  private readonly apiBaseUrl = signal(this.resolveApiBaseUrl());
+  // Route API calls through the Angular dev-server proxy to the hosted backend.
+  private readonly apiBaseUrl = '/api';
+  readonly upstreamApiBaseUrl = 'https://srvn128.hostgtr.to/api';
+
+  readonly registerEndpoint = `${this.apiBaseUrl}/register`;
 
   private readonly user = signal<AuthenticatedUser | null>(this.restoreUser());
 
@@ -62,7 +66,7 @@ export class AuthService {
 
   register(payload: RegisterPayload) {
     return this.http
-      .post<AuthResponse>(`${this.apiBaseUrl()}/register`, payload)
+      .post<AuthResponse>(this.registerEndpoint, payload)
       .pipe(tap((response) => this.persistSession(response)));
   }
 
