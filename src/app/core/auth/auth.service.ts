@@ -41,10 +41,12 @@ export class AuthService {
   private readonly router = inject(Router);
 
   // Route API calls through the Angular dev-server proxy to the hosted backend.
-  private readonly apiBaseUrlValue = '/api';
+  private apiBaseUrlValue = '/api';
   readonly upstreamApiBaseUrl = 'https://srvn128.hostgtr.to/api';
 
-  readonly registerEndpoint = `${this.apiBaseUrlValue}/register`;
+  get registerEndpoint() {
+    return `${this.apiBaseUrlValue}/register`;
+  }
 
   private readonly user = signal<AuthenticatedUser | null>(this.restoreUser());
 
@@ -59,6 +61,16 @@ export class AuthService {
   // previous method name.
   getApiBaseUrl() {
     return this.apiBaseUrl();
+  }
+
+  // Backwards-compatible setter for callers that still try to override the
+  // proxied API base URL at runtime.
+  setApiBaseUrl(nextUrl: string) {
+    if (!nextUrl) {
+      return;
+    }
+
+    this.apiBaseUrlValue = nextUrl;
   }
 
   register(payload: RegisterPayload) {
