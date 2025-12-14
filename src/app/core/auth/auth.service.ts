@@ -41,27 +41,18 @@ export class AuthService {
   private readonly router = inject(Router);
 
   // Route API calls through the Angular dev-server proxy to the hosted backend.
-  private readonly apiBaseUrl = '/api';
+  private readonly apiBaseUrlValue = '/api';
   readonly upstreamApiBaseUrl = 'https://srvn128.hostgtr.to/api';
 
-  readonly registerEndpoint = `${this.apiBaseUrl}/register`;
+  readonly registerEndpoint = `${this.apiBaseUrlValue}/register`;
 
   private readonly user = signal<AuthenticatedUser | null>(this.restoreUser());
 
   readonly currentUser = computed(() => this.user());
   readonly isAuthenticated = computed(() => !!this.user());
 
-  getApiBaseUrl() {
-    return this.apiBaseUrl();
-  }
-
-  setApiBaseUrl(nextUrl: string) {
-    const trimmed = (nextUrl ?? '').trim().replace(/\/$/, '');
-    const fallbackUrl = `${window.location.origin}/api`;
-    const finalUrl = trimmed || fallbackUrl;
-
-    localStorage.setItem('api_base_url', finalUrl);
-    this.apiBaseUrl.set(finalUrl);
+  apiBaseUrl() {
+    return this.apiBaseUrlValue;
   }
 
   register(payload: RegisterPayload) {
@@ -72,7 +63,7 @@ export class AuthService {
 
   login(payload: LoginPayload) {
     return this.http
-      .post<AuthResponse>(`${this.apiBaseUrl()}/login`, payload)
+      .post<AuthResponse>(`${this.apiBaseUrlValue}/login`, payload)
       .pipe(
         tap((response) => this.persistSession(response)),
         tap(() => this.router.navigate(['/dashboard']))
@@ -90,7 +81,7 @@ export class AuthService {
     const role = this.user()?.role ?? 'guest';
 
     return this.http
-      .get<DashboardModule[]>(`${this.apiBaseUrl()}/roles/${role}/modules`)
+      .get<DashboardModule[]>(`${this.apiBaseUrlValue}/roles/${role}/modules`)
       .pipe(
         map((modules) => modules ?? []),
         catchError(() => of(this.buildFallbackModules(role)))
