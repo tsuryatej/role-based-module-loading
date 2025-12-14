@@ -1,0 +1,75 @@
+<div class="not-found-page">
+
+  <section class="py-5 not-found-hero">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+
+        <!-- Left: message -->
+        <div class="col-12 col-md-6">
+          <div class="not-found-code mb-3">
+            404
+          </div>
+
+          <h1 class="h2 fw-bold mb-2">
+            Page not found
+          </h1>
+
+          <p class="text-muted mb-4">
+            The page you are looking for doesn’t exist, has been moved, or is not available for your role yet.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary not-found-cta-main" routerLink="/home">
+              Go to Home
+            </a>
+            <a class="btn btn-outline-secondary not-found-cta-secondary" routerLink="/dashboard">
+              Open Dashboard
+            </a>
+          </div>
+
+          <div class="mt-4 small text-muted">
+            Or jump to:
+            <span class="not-found-link-list">
+              <a routerLink="/login" class="not-found-inline-link">Login</a>
+              ·
+              <a routerLink="/register" class="not-found-inline-link">Register</a>
+              ·
+              <a routerLink="/contact" class="not-found-inline-link">Contact</a>
+              ·
+              <a routerLink="/faq" class="not-found-inline-link">FAQ</a>
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: explanation card -->
+        <div class="col-12 col-md-6">
+          <div class="card shadow-sm border-0 not-found-card">
+            <div class="card-body">
+              <h2 class="h5 mb-3">What might have happened?</h2>
+              <p class="small text-muted mb-3">
+                We couldn’t match the URL you entered with a route in this application.
+              </p>
+
+              <ul class="list-unstyled small mb-0">
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="not-found-bullet mt-1"></span>
+                  <span>The link you followed is outdated or incorrect.</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="not-found-bullet mt-1"></span>
+                  <span>The page was renamed or moved during a recent update.</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="not-found-bullet mt-1"></span>
+                  <span>The feature is available only for certain roles or environments.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>

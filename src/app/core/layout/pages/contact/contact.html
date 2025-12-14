@@ -1,0 +1,195 @@
+<div class="contact-page">
+
+  <!-- Hero / Intro -->
+  <section class="py-5 contact-hero border-bottom">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-lg-7">
+          <p class="contact-kicker text-uppercase small fw-semibold mb-2">
+            Get in touch
+          </p>
+
+          <h1 class="display-5 fw-bold mb-3 contact-title">
+            {{ pageTitle }}
+          </h1>
+
+          <p class="lead mb-4 text-muted contact-subtitle">
+            {{ pageSubtitle }}
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a [routerLink]="'/home'" class="btn btn-outline-secondary contact-cta-secondary">
+              Back to Home
+            </a>
+            <a [routerLink]="'/about'" class="btn btn-primary contact-cta-primary">
+              View Architecture
+            </a>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-5">
+          <div class="card shadow-sm border-0 contact-info-card">
+            <div class="card-body">
+              <h5 class="card-title mb-2">Contact details</h5>
+              <p class="text-muted small mb-3">
+                In a real project, this would map to your dev team, support address, or ticketing system.
+              </p>
+
+              <ul class="list-unstyled small mb-0">
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="contact-bullet mt-1"></span>
+                  <span><strong>Email</strong>: support&#64;example.com</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="contact-bullet mt-1"></span>
+                  <span><strong>Preferred</strong>: 9:00 – 18:00 IST, Mon–Fri</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="contact-bullet mt-1"></span>
+                  <span><strong>Topics</strong>: roles, modules, deployment, integration queries</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form + Details -->
+  <section class="py-5 contact-main">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Form -->
+        <div class="col-12 col-lg-7">
+          <div class="card border-0 shadow-sm contact-form-card">
+            <div class="card-body">
+              <h2 class="h4 mb-3">Send a message</h2>
+              <p class="text-muted small mb-4">
+                Share a brief summary of what you need – for example, “Configure admin module loading”,
+                “Help with route guards”, or “Questions on deployment”.
+              </p>
+
+              <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="mb-3">
+                  <label for="fullName" class="form-label small fw-semibold">
+                    Full Name
+                  </label>
+                  <input
+                    id="fullName"
+                    type="text"
+                    class="form-control rounded-5"
+                    formControlName="fullName"
+                    [ngClass]="{ 'is-invalid': submitted && f['fullName'].invalid }"
+                    placeholder="Enter your name"
+                  />
+                  @if (submitted && f['fullName'].invalid) {
+                    <div class="invalid-feedback small">
+                      Name is required and should be at least 3 characters.
+                    </div>
+                  }
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label small fw-semibold">
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-control rounded-5"
+                    formControlName="email"
+                    [ngClass]="{ 'is-invalid': submitted && f['email'].invalid }"
+                    placeholder="name@company.com"
+                  />
+                  @if (submitted && f['email'].invalid) {
+                    <div class="invalid-feedback small">
+                      A valid email address is required.
+                    </div>
+                  }
+                </div>
+
+                <div class="mb-3">
+                  <label for="subject" class="form-label small fw-semibold">
+                    Subject
+                  </label>
+                  <input
+                    id="subject"
+                    type="text"
+                    class="form-control rounded-5"
+                    formControlName="subject"
+                    [ngClass]="{ 'is-invalid': submitted && f['subject'].invalid }"
+                    placeholder="Short title of your query"
+                  />
+                  @if (submitted && f['subject'].invalid) {
+                    <div class="invalid-feedback small">
+                      Subject is required and should be at least 4 characters.
+                    </div>
+                  }
+                </div>
+
+                <div class="mb-3">
+                  <label for="message" class="form-label small fw-semibold">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    rows="4"
+                    class="form-control"
+                    formControlName="message"
+                    [ngClass]="{ 'is-invalid': submitted && f['message'].invalid }"
+                    placeholder="Provide some context so we can help effectively."
+                  ></textarea>
+                  @if (submitted && f['message'].invalid) {
+                    <div class="invalid-feedback small">
+                      Message is required and should be at least 10 characters.
+                    </div>
+                  }
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center contact-form-footer">
+                  <span class="small text-muted">
+                    We typically respond within one business day in a real setup.
+                  </span>
+                  <button type="submit" class="btn btn-primary btn-sm contact-submit-btn">
+                    Submit Request
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side panel -->
+        <div class="col-12 col-lg-5">
+          <div class="card border-0 shadow-sm contact-side-card">
+            <div class="card-body">
+              <h2 class="h5 mb-3">What can we help with?</h2>
+              <ul class="list-unstyled small mb-4">
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="contact-bullet mt-1"></span>
+                  <span>Questions on how to structure role-based modules.</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="contact-bullet mt-1"></span>
+                  <span>Ideas for improving navigation and user experience.</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="contact-bullet mt-1"></span>
+                  <span>Clarifying how to plug in real authentication and APIs.</span>
+                </li>
+              </ul>
+
+              <div class="alert alert-light border contact-note small mb-0" role="alert">
+                Tip: In a production app, this could highlight SLAs, support channels, or links to documentation.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>

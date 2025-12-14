@@ -1,0 +1,129 @@
+<div class="register-page">
+
+  <section class="register-hero py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-5">
+          <div class="card register-card shadow-sm border-0">
+
+            <!-- Header -->
+            <div class="card-header register-card-header d-flex align-items-center justify-content-between">
+              <div>
+                <p class="register-kicker text-uppercase small fw-semibold mb-1">
+                  Join the application
+                </p>
+                <h4 class="mb-0 register-title">
+                  Create an Account
+                </h4>
+              </div>
+              <span class="badge register-status-badge rounded-pill fw-normal">
+                New user
+              </span>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+              <form>
+                <div class="mb-3">
+                  <label for="fullName" class="form-label small fw-semibold">
+                    Full Name <span class="register-required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control register-input"
+                    id="fullName"
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label small fw-semibold">
+                    Email Address <span class="register-required">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    class="form-control register-input"
+                    id="email"
+                    placeholder="name@example.com"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="mobile" class="form-label small fw-semibold">
+                    Mobile Number <span class="register-required">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    class="form-control register-input"
+                    id="mobile"
+                    placeholder="e.g., 9876543210"
+                    required
+                  />
+                </div>
+
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label for="password" class="form-label small fw-semibold">
+                      Password <span class="register-required">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      class="form-control register-input"
+                      id="password"
+                      placeholder="********"
+                      required
+                    />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label for="rePassword" class="form-label small fw-semibold">
+                      Re-enter Password <span class="register-required">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      class="form-control register-input"
+                      id="rePassword"
+                      placeholder="********"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="form-check mt-3 mb-4 small">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="terms"
+                    required
+                  />
+                  <label class="form-check-label" for="terms">
+                    I agree to the terms &amp; conditions
+                  </label>
+                </div>
+
+                <div class="d-flex gap-2 justify-content-center register-actions">
+                  <button type="reset" class="btn btn-sm register-btn-outline">
+                    Reset
+                  </button>
+                  <button type="submit" class="btn btn-sm register-btn-primary">
+                    Create Account
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Footer -->
+            <div class="card-footer text-center register-footer">
+              <small class="text-muted">
+                Already have an account?
+                <a class="register-inline-link" [routerLink]="'/login'">Login here</a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

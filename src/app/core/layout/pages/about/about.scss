@@ -1,0 +1,87 @@
+.about-page {
+  .about-hero {
+    background: linear-gradient(
+        135deg,
+        rgba(var(--bs-primary-rgb), 0.05),
+        rgba(15, 23, 42, 0.02)
+    );
+  }
+
+  .about-title {
+    letter-spacing: 0.01em;
+  }
+
+  .about-subtitle {
+    max-width: 42rem;
+  }
+
+  .about-kicker {
+    color: var(--bs-primary);
+    letter-spacing: 0.12em;
+  }
+
+  .about-cta-primary,
+  .about-cta-secondary {
+    border-radius: 999rem;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+  }
+
+  .about-summary-card {
+    border-radius: 1rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(0.375rem);
+  }
+
+  .about-bullet {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999rem;
+    background-color: rgba(var(--bs-primary-rgb), 0.2);
+  }
+
+  .about-architecture {
+    background-color: #f9fafb;
+  }
+
+  .about-architecture-card {
+    border-radius: 0.9rem;
+    transition:
+      transform 0.18s ease-out,
+      box-shadow 0.18s ease-out;
+
+    .card-title {
+      font-weight: 600;
+    }
+
+    &:hover {
+      transform: translateY(-0.25rem);
+      box-shadow: 0 0.85rem 2.1rem rgba(15, 23, 42, 0.09);
+    }
+  }
+
+  .about-roles {
+    background-color: #ffffff;
+  }
+
+  .about-role-card {
+    border-radius: 0.9rem;
+  }
+
+  .about-roles-cta {
+    border-radius: 999rem;
+    font-weight: 500;
+    padding: 0.4rem 1.25rem;
+  }
+
+  .about-tech {
+    background-color: #f3f4f6;
+  }
+
+  .about-alert {
+    border-radius: 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+}

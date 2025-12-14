@@ -1,0 +1,122 @@
+<div class="faq-page">
+
+  <!-- Hero / Intro -->
+  <section class="py-5 faq-hero border-bottom">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-lg-7">
+          <p class="faq-kicker text-uppercase small fw-semibold mb-2">
+            Help Center · FAQs
+          </p>
+
+          <h1 class="display-5 fw-bold mb-3 faq-title">
+            {{ pageTitle }}
+          </h1>
+
+          <p class="lead mb-4 text-muted faq-subtitle">
+            {{ pageSubtitle }}
+          </p>
+        </div>
+
+        <div class="col-12 col-lg-5">
+          <div class="card shadow-sm border-0 faq-summary-card">
+            <div class="card-body">
+              <h5 class="card-title mb-2">Short on time?</h5>
+              <p class="card-text text-muted small mb-3">
+                Browse through the most common questions below. For anything more specific, use the
+                contact page to send a detailed query.
+              </p>
+              <ul class="list-unstyled small mb-0">
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="faq-bullet mt-1"></span>
+                  <span>High-level overview of the project design.</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="faq-bullet mt-1"></span>
+                  <span>Routing, modules, and role-based access explained.</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start gap-2">
+                  <span class="faq-bullet mt-1"></span>
+                  <span>Styling choices and how to adapt them.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Content -->
+  <section class="py-5 faq-main">
+    <div class="container">
+
+      <!-- Category Filters -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <h2 class="h4 mb-1">Browse questions</h2>
+          <p class="text-muted small mb-0">
+            Filter by topic or scan through all FAQs at once.
+          </p>
+        </div>
+
+        <div class="faq-filters d-flex flex-wrap gap-2">
+          @for (cat of categories; track cat) {
+            <button
+              type="button"
+              class="btn btn-sm faq-filter-pill"
+              [class.faq-filter-pill-active]="cat === selectedCategory"
+              (click)="selectCategory(cat)"
+            >
+              {{ cat }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- FAQ Accordion -->
+      @if (filteredFaqs.length === 0) {
+        <div class="alert alert-light border small mb-0">
+          No questions found for the selected category. Try switching to <strong>All</strong>.
+        </div>
+      } @else {
+        <div class="accordion faq-accordion" id="faqAccordion">
+          @for (item of filteredFaqs; track item.id; let i = $index) {
+            <div class="accordion-item faq-accordion-item">
+              <h2 class="accordion-header" [id]="'faq-heading-' + i">
+                <button
+                  class="accordion-button collapsed faq-accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  [attr.data-bs-target]="'#faq-collapse-' + i"
+                  aria-expanded="false"
+                  [attr.aria-controls]="'faq-collapse-' + i"
+                >
+                  <span class="faq-question-text">
+                    {{ item.question }}
+                  </span>
+                  <span class="faq-question-category">
+                    {{ item.category }}
+                  </span>
+                </button>
+              </h2>
+              <div
+                [id]="'faq-collapse-' + i"
+                class="accordion-collapse collapse"
+                [attr.aria-labelledby]="'faq-heading-' + i"
+                data-bs-parent="#faqAccordion"
+              >
+                <div class="accordion-body faq-accordion-body">
+                  {{ item.answer }}
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+    </div>
+  </section>
+
+</div>

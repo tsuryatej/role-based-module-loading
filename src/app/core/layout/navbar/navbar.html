@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg bg-white shadow-sm border-bottom">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-semibold" [routerLink]="'/'">
+      {{ mainTitle }}
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <!-- LEFT: Home / About / Contact -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        @for (item of leftLinks; track item.path) {
+          <li class="nav-item" routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: item.exact ?? false }">
+            <a class="nav-link" [routerLink]="item.path">
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+
+      <!-- RIGHT: Login / Register -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        @for (item of rightLinks; track item.path) {
+          <li class="nav-item" routerLinkActive="active">
+            @if (item.label === 'Register') {
+              <button class="btn btn-sm my-1 btn-primary py-1 rounded-1 nav-primary-btn" [routerLink]="item.path">
+                {{ item.label }}
+              </button>
+            } @else {
+              <a class="nav-link" [routerLink]="item.path">
+                {{ item.label }}
+              </a>
+            }
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>
