@@ -23,6 +23,29 @@
 
             <!-- Body -->
             <div class="card-body">
+              <div class="mb-3">
+                @switch (connectionStatus()) {
+                  @case ('checking') {
+                    <div class="alert alert-info py-2 mb-2 register-api-status" role="status">
+                      Checking connection to {{ apiBaseUrl }}...
+                    </div>
+                  }
+                  @case ('online') {
+                    <div class="alert alert-success py-2 mb-2 register-api-status" role="status">
+                      Connected to {{ apiBaseUrl }}.
+                    </div>
+                  }
+                  @case ('offline') {
+                    <div class="alert alert-warning py-2 mb-2 register-api-status" role="status">
+                      Unable to reach {{ apiBaseUrl }}.
+                      @if (connectionError()) {
+                        <span class="d-block small mb-0 text-muted">{{ connectionError() }}</span>
+                      }
+                    </div>
+                  }
+                }
+              </div>
+
               <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" novalidate>
                 <div class="mb-3">
                   <label for="fullName" class="form-label small fw-semibold">
