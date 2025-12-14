@@ -39,8 +39,8 @@ $brand-blue-palette: (
   ),
 );
 
-$brand-primary: mat.define-palette($brand-blue-palette, 500, 100, 900);
-$brand-tertiary: mat.define-palette($brand-blue-palette, 300);
+$brand-primary: mat.m2-define-palette($brand-blue-palette, 500, 100, 900);
+$brand-tertiary: mat.m2-define-palette($brand-blue-palette, 300);
 
 html {
   @include mat.theme((

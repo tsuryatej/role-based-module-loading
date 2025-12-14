@@ -12,7 +12,10 @@ export class Dashboard implements OnInit {
   readonly loading = signal(true);
   readonly error = signal('');
   readonly modules = signal<DashboardModule[]>([]);
-  readonly user = this.authService.currentUser;
+
+  get user() {
+    return this.authService.currentUser;
+  }
 
   constructor(readonly authService: AuthService) {}
 
