@@ -40,13 +40,16 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  // Update this base URL to point to your deployed API that writes to MySQL.
-  private readonly apiBaseUrl = 'https://srvn128.hostgtr.to/api';
+  private readonly apiBaseUrl = this.resolveApiBaseUrl();
 
   private readonly user = signal<AuthenticatedUser | null>(this.restoreUser());
 
   readonly currentUser = computed(() => this.user());
   readonly isAuthenticated = computed(() => !!this.user());
+
+  getApiBaseUrl() {
+    return this.apiBaseUrl;
+  }
 
   register(payload: RegisterPayload) {
     return this.http
@@ -79,6 +82,10 @@ export class AuthService {
         map((modules) => modules ?? []),
         catchError(() => of(this.buildFallbackModules(role)))
       );
+  }
+
+  healthCheck() {
+    return this.http.get(`${this.apiBaseUrl}/health`, { responseType: 'text' });
   }
 
   private persistSession(response: AuthResponse) {
@@ -137,5 +144,24 @@ export class AuthService {
         cta: 'Create ticket'
       }
     ];
+  }
+
+  private resolveApiBaseUrl(): string {
+    const envUrl = this.readFromImportMeta();
+    const storedUrl = localStorage.getItem('api_base_url');
+    const fallbackUrl = `${window.location.origin}/api`;
+    const primary = envUrl || storedUrl || 'https://srvn128.hostgtr.to/api';
+
+    const trimmed = primary.replace(/\/$/, '');
+    return trimmed || fallbackUrl;
+  }
+
+  private readFromImportMeta(): string | undefined {
+    try {
+      const meta = import.meta as { readonly env?: Record<string, string | undefined> };
+      return meta?.env?.['NG_APP_API_BASE_URL'];
+    } catch (error) {
+      return undefined;
+    }
   }
 }
