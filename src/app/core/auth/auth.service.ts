@@ -88,6 +88,10 @@ export class AuthService {
       );
   }
 
+  healthCheck() {
+    return this.http.get(`${this.apiBaseUrl()}/health`, { responseType: 'text' });
+  }
+
   private persistSession(response: AuthResponse) {
     if (!response?.token || !response?.user) {
       return;
@@ -144,5 +148,24 @@ export class AuthService {
         cta: 'Create ticket'
       }
     ];
+  }
+
+  private resolveApiBaseUrl(): string {
+    const envUrl = this.readFromImportMeta();
+    const storedUrl = localStorage.getItem('api_base_url');
+    const fallbackUrl = `${window.location.origin}/api`;
+    const primary = envUrl || storedUrl || fallbackUrl;
+
+    const trimmed = primary.replace(/\/$/, '');
+    return trimmed || fallbackUrl;
+  }
+
+  private readFromImportMeta(): string | undefined {
+    try {
+      const meta = import.meta as { readonly env?: Record<string, string | undefined> };
+      return meta?.env?.['NG_APP_API_BASE_URL'];
+    } catch (error) {
+      return undefined;
+    }
   }
 }
