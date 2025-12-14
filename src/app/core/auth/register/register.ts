@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -14,9 +14,15 @@ import { AuthService } from '../auth.service';
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
-export class Register {
+export class Register implements OnInit {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly authService = inject(AuthService);
+
+  readonly apiBaseUrl = signal(this.authService.getApiBaseUrl());
+  readonly apiBaseUrlControl = this.fb.control(this.apiBaseUrl(), [Validators.required]);
+
+  readonly connectionStatus = signal<'checking' | 'online' | 'offline'>('checking');
+  readonly connectionError = signal('');
 
   readonly registerForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
@@ -30,6 +36,10 @@ export class Register {
   readonly submitting = signal(false);
   readonly error = signal('');
   readonly success = signal('');
+
+  ngOnInit() {
+    this.checkApiConnection();
+  }
 
   handleSubmit() {
     if (this.registerForm.invalid || this.submitting()) {
@@ -62,10 +72,39 @@ export class Register {
           this.success.set('Registration successful. You can now sign in.');
           this.registerForm.reset();
         },
-        error: () => {
+        error: (err) => {
           this.submitting.set(false);
-          this.error.set('Unable to create your account. Please try again.');
+          const detail = err?.error?.message || err?.message;
+          this.error.set(
+            detail ? `Unable to create your account: ${detail}` : 'Unable to create your account. Please try again.'
+          );
         }
       });
+  }
+
+  applyApiBaseUrl() {
+    if (this.apiBaseUrlControl.invalid) {
+      this.apiBaseUrlControl.markAsTouched();
+      return;
+    }
+
+    const nextUrl = this.apiBaseUrlControl.value ?? '';
+    this.authService.setApiBaseUrl(nextUrl);
+    this.apiBaseUrl.set(this.authService.getApiBaseUrl());
+    this.checkApiConnection();
+  }
+
+  checkApiConnection() {
+    this.connectionStatus.set('checking');
+    this.connectionError.set('');
+
+    this.authService.healthCheck().subscribe({
+      next: () => this.connectionStatus.set('online'),
+      error: (err) => {
+        this.connectionStatus.set('offline');
+        const detail = err?.error || err?.message || 'Unable to reach the API.';
+        this.connectionError.set(typeof detail === 'string' ? detail : 'Unable to reach the API.');
+      }
+    });
   }
 }

@@ -40,23 +40,35 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  // Update this base URL to point to your deployed API that writes to MySQL.
-  private readonly apiBaseUrl = 'https://srvn128.hostgtr.to/api';
+  private readonly apiBaseUrl = signal(this.resolveApiBaseUrl());
 
   private readonly user = signal<AuthenticatedUser | null>(this.restoreUser());
 
   readonly currentUser = computed(() => this.user());
   readonly isAuthenticated = computed(() => !!this.user());
 
+  getApiBaseUrl() {
+    return this.apiBaseUrl();
+  }
+
+  setApiBaseUrl(nextUrl: string) {
+    const trimmed = (nextUrl ?? '').trim().replace(/\/$/, '');
+    const fallbackUrl = `${window.location.origin}/api`;
+    const finalUrl = trimmed || fallbackUrl;
+
+    localStorage.setItem('api_base_url', finalUrl);
+    this.apiBaseUrl.set(finalUrl);
+  }
+
   register(payload: RegisterPayload) {
     return this.http
-      .post<AuthResponse>(`${this.apiBaseUrl}/register`, payload)
+      .post<AuthResponse>(`${this.apiBaseUrl()}/register`, payload)
       .pipe(tap((response) => this.persistSession(response)));
   }
 
   login(payload: LoginPayload) {
     return this.http
-      .post<AuthResponse>(`${this.apiBaseUrl}/login`, payload)
+      .post<AuthResponse>(`${this.apiBaseUrl()}/login`, payload)
       .pipe(
         tap((response) => this.persistSession(response)),
         tap(() => this.router.navigate(['/dashboard']))
@@ -74,11 +86,15 @@ export class AuthService {
     const role = this.user()?.role ?? 'guest';
 
     return this.http
-      .get<DashboardModule[]>(`${this.apiBaseUrl}/roles/${role}/modules`)
+      .get<DashboardModule[]>(`${this.apiBaseUrl()}/roles/${role}/modules`)
       .pipe(
         map((modules) => modules ?? []),
         catchError(() => of(this.buildFallbackModules(role)))
       );
+  }
+
+  healthCheck() {
+    return this.http.get(`${this.apiBaseUrl()}/health`, { responseType: 'text' });
   }
 
   private persistSession(response: AuthResponse) {
@@ -137,5 +153,24 @@ export class AuthService {
         cta: 'Create ticket'
       }
     ];
+  }
+
+  private resolveApiBaseUrl(): string {
+    const envUrl = this.readFromImportMeta();
+    const storedUrl = localStorage.getItem('api_base_url');
+    const fallbackUrl = `${window.location.origin}/api`;
+    const primary = envUrl || storedUrl || fallbackUrl;
+
+    const trimmed = primary.replace(/\/$/, '');
+    return trimmed || fallbackUrl;
+  }
+
+  private readFromImportMeta(): string | undefined {
+    try {
+      const meta = import.meta as { readonly env?: Record<string, string | undefined> };
+      return meta?.env?.['NG_APP_API_BASE_URL'];
+    } catch (error) {
+      return undefined;
+    }
   }
 }
