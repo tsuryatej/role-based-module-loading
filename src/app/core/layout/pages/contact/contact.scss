@@ -1,23 +1,23 @@
 .contact-page {
   .contact-hero {
-    background: linear-gradient(
-        135deg,
-        rgba(var(--bs-primary-rgb), 0.05),
-        rgba(15, 23, 42, 0.02)
-    );
+    background: linear-gradient(135deg, rgba(39, 180, 245, 0.18), rgba(231, 247, 254, 0.9));
+    border-bottom: 1px solid rgba(7, 109, 156, 0.12);
   }
 
   .contact-title {
     letter-spacing: 0.01em;
+    color: var(--brand-900);
   }
 
   .contact-subtitle {
     max-width: 42rem;
+    color: var(--brand-800);
   }
 
   .contact-kicker {
-    color: var(--bs-primary);
+    color: var(--brand-700);
     letter-spacing: 0.12em;
+    font-weight: 700;
   }
 
   .contact-cta-primary,
@@ -27,10 +27,16 @@
     padding: 0.5rem 1.5rem;
   }
 
+  .contact-cta-secondary {
+    border-color: rgba(7, 109, 156, 0.3);
+    color: var(--brand-800);
+  }
+
   .contact-info-card {
     border-radius: 1rem;
     background-color: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(0.375rem);
+    border: 1px solid var(--brand-border);
   }
 
   .contact-bullet {
@@ -38,17 +44,18 @@
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 999rem;
-    background-color: rgba(var(--bs-primary-rgb), 0.2);
+    background-color: var(--brand-400);
   }
 
   .contact-main {
-    background-color: #f9fafb;
+    background-color: var(--brand-50);
   }
 
   .contact-form-card,
   .contact-side-card {
     border-radius: 0.9rem;
     background-color: #ffffff;
+    border: 1px solid var(--brand-border);
   }
 
   .contact-form-footer {
@@ -59,11 +66,14 @@
 
   .contact-submit-btn {
     border-radius: 999rem;
-    font-weight: 500;
+    font-weight: 600;
     padding: 0.4rem 1.25rem;
+    box-shadow: 0 0.65rem 1.4rem rgba(7, 109, 156, 0.12);
   }
 
   .contact-note {
     border-radius: 0.9rem;
+    border: 1px solid var(--brand-border);
+    background-color: rgba(9, 139, 200, 0.08);
   }
 }
