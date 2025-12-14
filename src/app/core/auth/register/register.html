@@ -23,7 +23,7 @@
 
             <!-- Body -->
             <div class="card-body">
-              <form>
+              <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" novalidate>
                 <div class="mb-3">
                   <label for="fullName" class="form-label small fw-semibold">
                     Full Name <span class="register-required">*</span>
@@ -32,9 +32,14 @@
                     type="text"
                     class="form-control register-input"
                     id="fullName"
+                    formControlName="name"
                     placeholder="Enter your full name"
+                    [class.is-invalid]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
                     required
                   />
+                  <div class="invalid-feedback" *ngIf="registerForm.get('name')?.hasError('required')">
+                    Your name is required.
+                  </div>
                 </div>
 
                 <div class="mb-3">
@@ -45,9 +50,14 @@
                     type="email"
                     class="form-control register-input"
                     id="email"
+                    formControlName="email"
                     placeholder="name@example.com"
+                    [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
                     required
                   />
+                  <div class="invalid-feedback" *ngIf="registerForm.get('email')?.hasError('email')">
+                    Please enter a valid email.
+                  </div>
                 </div>
 
                 <div class="mb-3">
@@ -58,9 +68,14 @@
                     type="tel"
                     class="form-control register-input"
                     id="mobile"
+                    formControlName="mobile"
                     placeholder="e.g., 9876543210"
+                    [class.is-invalid]="registerForm.get('mobile')?.invalid && registerForm.get('mobile')?.touched"
                     required
                   />
+                  <div class="invalid-feedback" *ngIf="registerForm.get('mobile')?.hasError('required')">
+                    A mobile number is required.
+                  </div>
                 </div>
 
                 <div class="row g-3">
@@ -72,9 +87,14 @@
                       type="password"
                       class="form-control register-input"
                       id="password"
+                      formControlName="password"
                       placeholder="********"
+                      [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
                       required
                     />
+                    <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('required')">
+                      Password is required.
+                    </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <label for="rePassword" class="form-label small fw-semibold">
@@ -84,9 +104,14 @@
                       type="password"
                       class="form-control register-input"
                       id="rePassword"
+                      formControlName="confirmPassword"
                       placeholder="********"
+                      [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
                       required
                     />
+                    <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.hasError('mismatch')">
+                      Passwords must match.
+                    </div>
                   </div>
                 </div>
 
@@ -95,6 +120,7 @@
                     class="form-check-input"
                     type="checkbox"
                     id="terms"
+                    formControlName="acceptTerms"
                     required
                   />
                   <label class="form-check-label" for="terms">
@@ -102,12 +128,20 @@
                   </label>
                 </div>
 
+                <div class="alert alert-success py-2" *ngIf="success()">
+                  {{ success() }}
+                </div>
+
+                <div class="alert alert-danger py-2" *ngIf="error()">
+                  {{ error() }}
+                </div>
+
                 <div class="d-flex gap-2 justify-content-center register-actions">
-                  <button type="reset" class="btn btn-sm register-btn-outline">
+                  <button type="reset" class="btn btn-sm register-btn-outline" [disabled]="submitting()">
                     Reset
                   </button>
-                  <button type="submit" class="btn btn-sm register-btn-primary">
-                    Create Account
+                  <button type="submit" class="btn btn-sm register-btn-primary" [disabled]="submitting()">
+                    {{ submitting() ? 'Creating...' : 'Create Account' }}
                   </button>
                 </div>
               </form>
@@ -117,7 +151,7 @@
             <div class="card-footer text-center register-footer">
               <small class="text-muted">
                 Already have an account?
-                <a class="register-inline-link" [routerLink]="'/login'">Login here</a>
+                <a class="register-inline-link" routerLink="/login">Login here</a>
               </small>
             </div>
           </div>
