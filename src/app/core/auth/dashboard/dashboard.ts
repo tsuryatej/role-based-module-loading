@@ -19,6 +19,10 @@ export class Dashboard implements OnInit {
 
   constructor(readonly authService: AuthService) {}
 
+  get user() {
+    return this.authService.currentUser;
+  }
+
   ngOnInit() {
     this.authService.getRoleModules().subscribe({
       next: (modules) => {
