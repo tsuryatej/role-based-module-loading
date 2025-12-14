@@ -18,7 +18,8 @@ export class Register implements OnInit {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly authService = inject(AuthService);
 
-  readonly apiBaseUrl = this.authService.getApiBaseUrl();
+  readonly apiBaseUrl = signal(this.authService.getApiBaseUrl());
+  readonly apiBaseUrlControl = this.fb.control(this.apiBaseUrl(), [Validators.required]);
 
   readonly connectionStatus = signal<'checking' | 'online' | 'offline'>('checking');
   readonly connectionError = signal('');
@@ -74,12 +75,26 @@ export class Register implements OnInit {
         error: (err) => {
           this.submitting.set(false);
           const detail = err?.error?.message || err?.message;
-          this.error.set(detail ? `Unable to create your account: ${detail}` : 'Unable to create your account. Please try again.');
+          this.error.set(
+            detail ? `Unable to create your account: ${detail}` : 'Unable to create your account. Please try again.'
+          );
         }
       });
   }
 
-  private checkApiConnection() {
+  applyApiBaseUrl() {
+    if (this.apiBaseUrlControl.invalid) {
+      this.apiBaseUrlControl.markAsTouched();
+      return;
+    }
+
+    const nextUrl = this.apiBaseUrlControl.value ?? '';
+    this.authService.setApiBaseUrl(nextUrl);
+    this.apiBaseUrl.set(this.authService.getApiBaseUrl());
+    this.checkApiConnection();
+  }
+
+  checkApiConnection() {
     this.connectionStatus.set('checking');
     this.connectionError.set('');
 

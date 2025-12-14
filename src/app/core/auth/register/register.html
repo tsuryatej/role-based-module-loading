@@ -27,22 +27,47 @@
                 @switch (connectionStatus()) {
                   @case ('checking') {
                     <div class="alert alert-info py-2 mb-2 register-api-status" role="status">
-                      Checking connection to {{ apiBaseUrl }}...
+                      Checking connection to {{ apiBaseUrl() }}...
                     </div>
                   }
                   @case ('online') {
                     <div class="alert alert-success py-2 mb-2 register-api-status" role="status">
-                      Connected to {{ apiBaseUrl }}.
+                      Connected to {{ apiBaseUrl() }}.
                     </div>
                   }
                   @case ('offline') {
                     <div class="alert alert-warning py-2 mb-2 register-api-status" role="status">
-                      Unable to reach {{ apiBaseUrl }}.
+                      Unable to reach {{ apiBaseUrl() }}.
                       @if (connectionError()) {
                         <span class="d-block small mb-0 text-muted">{{ connectionError() }}</span>
                       }
                     </div>
                   }
+                }
+              </div>
+
+              <div class="mb-3 register-api-controls">
+                <label for="apiBaseUrl" class="form-label small fw-semibold mb-1">API URL</label>
+                <div class="d-flex flex-column flex-md-row gap-2 align-items-md-center">
+                  <input
+                    type="url"
+                    class="form-control form-control-sm register-input"
+                    id="apiBaseUrl"
+                    [formControl]="apiBaseUrlControl"
+                    placeholder="https://api.example.com/api"
+                    [class.is-invalid]="apiBaseUrlControl.invalid && apiBaseUrlControl.touched"
+                  />
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm register-btn-outline" (click)="applyApiBaseUrl()" [disabled]="submitting()">
+                      Use URL
+                    </button>
+                    <button type="button" class="btn btn-sm register-btn-primary" (click)="checkApiConnection()" [disabled]="submitting()">
+                      Retry
+                    </button>
+                  </div>
+                </div>
+                @if (apiBaseUrlControl.invalid && apiBaseUrlControl.touched) {
+                  <div class="text-danger small pt-1">API URL is required.</div>
                 }
               </div>
 
