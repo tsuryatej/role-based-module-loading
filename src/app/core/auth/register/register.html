@@ -37,9 +37,11 @@
                     [class.is-invalid]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
                     required
                   />
-                  <div class="invalid-feedback" *ngIf="registerForm.get('name')?.hasError('required')">
-                    Your name is required.
-                  </div>
+                  @if (registerForm.get('name')?.hasError('required')) {
+                    <div class="invalid-feedback">
+                      Your name is required.
+                    </div>
+                  }
                 </div>
 
                 <div class="mb-3">
@@ -55,9 +57,11 @@
                     [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
                     required
                   />
-                  <div class="invalid-feedback" *ngIf="registerForm.get('email')?.hasError('email')">
-                    Please enter a valid email.
-                  </div>
+                  @if (registerForm.get('email')?.hasError('email')) {
+                    <div class="invalid-feedback">
+                      Please enter a valid email.
+                    </div>
+                  }
                 </div>
 
                 <div class="mb-3">
@@ -73,9 +77,11 @@
                     [class.is-invalid]="registerForm.get('mobile')?.invalid && registerForm.get('mobile')?.touched"
                     required
                   />
-                  <div class="invalid-feedback" *ngIf="registerForm.get('mobile')?.hasError('required')">
-                    A mobile number is required.
-                  </div>
+                  @if (registerForm.get('mobile')?.hasError('required')) {
+                    <div class="invalid-feedback">
+                      A mobile number is required.
+                    </div>
+                  }
                 </div>
 
                 <div class="row g-3">
@@ -92,9 +98,11 @@
                       [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
                       required
                     />
-                    <div class="invalid-feedback" *ngIf="registerForm.get('password')?.hasError('required')">
-                      Password is required.
-                    </div>
+                    @if (registerForm.get('password')?.hasError('required')) {
+                      <div class="invalid-feedback">
+                        Password is required.
+                      </div>
+                    }
                   </div>
                   <div class="col-12 col-md-6">
                     <label for="rePassword" class="form-label small fw-semibold">
@@ -109,9 +117,11 @@
                       [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
                       required
                     />
-                    <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.hasError('mismatch')">
-                      Passwords must match.
-                    </div>
+                    @if (registerForm.get('confirmPassword')?.hasError('mismatch')) {
+                      <div class="invalid-feedback">
+                        Passwords must match.
+                      </div>
+                    }
                   </div>
                 </div>
 
@@ -128,13 +138,17 @@
                   </label>
                 </div>
 
-                <div class="alert alert-success py-2" *ngIf="success()">
-                  {{ success() }}
-                </div>
+                @if (success()) {
+                  <div class="alert alert-success py-2">
+                    {{ success() }}
+                  </div>
+                }
 
-                <div class="alert alert-danger py-2" *ngIf="error()">
-                  {{ error() }}
-                </div>
+                @if (error()) {
+                  <div class="alert alert-danger py-2">
+                    {{ error() }}
+                  </div>
+                }
 
                 <div class="d-flex gap-2 justify-content-center register-actions">
                   <button type="reset" class="btn btn-sm register-btn-outline" [disabled]="submitting()">
