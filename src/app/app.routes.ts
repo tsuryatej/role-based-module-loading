@@ -10,6 +10,7 @@ import { About } from './core/layout/pages/about/about';
 import { Contact } from './core/layout/pages/contact/contact';
 import {NotFound} from './core/not-found/not-found';
 import {ForgotPassword} from './core/auth/forgot-password/forgot-password';
+import {authGuard} from './core/auth/auth.guard';
 
 export const routes: Routes = [
   { path: 'home', component: Home },
@@ -20,7 +21,7 @@ export const routes: Routes = [
   { path: 'logout', component: Logout },
   { path: 'register', component: Register },
   { path: 'admin', component: Admin },
-  { path: 'dashboard', component: Dashboard },
+  { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
   { path: 'forgot-password', component: ForgotPassword },
 
   // default
